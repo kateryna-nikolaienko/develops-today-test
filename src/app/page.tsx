@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
+import { useState, useEffect, Suspense } from 'react';
+import Link from 'next/link';
 
 interface VehicleMake {
   MakeId: number;
@@ -11,15 +11,15 @@ interface VehicleMake {
 // Filter page
 export default function Home() {
   const [vehicleMakes, setVehicleMakes] = useState<VehicleMake[]>([]);
-  const [makeId, setMakeId] = useState("");
-  const [year, setYear] = useState("");
+  const [makeId, setMakeId] = useState('');
+  const [year, setYear] = useState('');
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
 
   // Fetch vehicle makes
   useEffect(() => {
     async function fetchMakes() {
       const res = await fetch(
-        "https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json"
+        'https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json'
       );
       const data = await res.json();
       setVehicleMakes(data.Results);
@@ -44,42 +44,44 @@ export default function Home() {
   );
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-2 bg-gray-50 text-black">
-      <main className="flex flex-col items-center justify-center text-center p-6 max-w-md w-full">
-        <h1 className="text-3xl font-semibold mb-8">Choose Car</h1>
+    <div className='min-h-screen flex flex-col items-center justify-center p-2 bg-gray-50 text-black'>
+      <main className='flex flex-col items-center justify-center text-center p-6 max-w-md w-full'>
+        <h1 className='text-3xl font-semibold mb-8'>Choose Car</h1>
 
         {/* Vehicle Make Dropdown */}
-        <div className="mb-6 w-full text-left">
-          <label htmlFor="vehicleMake" className="block text-xl mb-2">
+        <div className='mb-6 w-full text-left'>
+          <label htmlFor='vehicleMake' className='block text-xl mb-2'>
             Select Vehicle Make
           </label>
-          <select
-            id="vehicleMake"
-            value={makeId}
-            onChange={(e) => setMakeId(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">Select a make</option>
-            {vehicleMakes.map((make) => (
-              <option key={make.MakeId} value={make.MakeId}>
-                {make.MakeName}
-              </option>
-            ))}
-          </select>
+          <Suspense fallback={<div>Loading vehicle makes...</div>}>
+            <select
+              id='vehicleMake'
+              value={makeId}
+              onChange={(e) => setMakeId(e.target.value)}
+              className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+            >
+              <option value=''>Select a make</option>
+              {vehicleMakes.map((make) => (
+                <option key={make.MakeId} value={make.MakeId}>
+                  {make.MakeName}
+                </option>
+              ))}
+            </select>
+          </Suspense>
         </div>
 
         {/* Model Year Dropdown */}
-        <div className="mb-8 w-full text-left">
-          <label htmlFor="modelYear" className="block text-xl mb-2">
+        <div className='mb-8 w-full text-left'>
+          <label htmlFor='modelYear' className='block text-xl mb-2'>
             Select Model Year
           </label>
           <select
-            id="modelYear"
+            id='modelYear'
             value={year}
             onChange={(e) => setYear(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
           >
-            <option value="">Select a year</option>
+            <option value=''>Select a year</option>
             {years.map((year) => (
               <option key={year} value={year}>
                 {year}
@@ -90,16 +92,16 @@ export default function Home() {
 
         {/* Next Button */}
         <Link
-          href={isButtonEnabled ? `/result/${makeId}/${year}` : "#"}
+          href={isButtonEnabled ? `/result/${makeId}/${year}` : '#'}
           passHref
-          className="w-full"
+          className='w-full'
         >
           <button
             disabled={!isButtonEnabled}
             className={`px-6 py-2 text-white font-semibold rounded-lg w-full ${
               isButtonEnabled
-                ? "bg-blue-600 hover:bg-blue-700"
-                : "bg-gray-400 cursor-not-allowed"
+                ? 'bg-blue-600 hover:bg-blue-700'
+                : 'bg-gray-400 cursor-not-allowed'
             } w-full`}
           >
             Next
@@ -107,7 +109,7 @@ export default function Home() {
         </Link>
       </main>
 
-      <footer className="absolute bottom-0 right-0 mb-4 mr-4 text-sm text-gray-500">
+      <footer className='absolute bottom-0 right-0 mb-4 mr-4 text-sm text-gray-500'>
         <p>&copy; by Kateryna Nikolaienko</p>
       </footer>
     </div>
