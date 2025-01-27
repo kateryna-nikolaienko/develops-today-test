@@ -60,7 +60,7 @@ export default function ResultPage({
         </Suspense>
       </main>
 
-      <footer className='absolute bottom-0 right-0 mb-4 mr-4 text-sm text-gray-500'>
+      <footer className='mt-auto w-full text-center p-4 text-sm text-gray-500'>
         <p>&copy; by Kateryna Nikolaienko</p>
       </footer>
     </div>
